@@ -34,6 +34,7 @@ namespace ConsoleUtility
         [Header("Settings")]
         [Range(1.0f, 30.0f)]
         public float ScrollSpeed = 5.0f;
+		public bool showUnityLogs = true;
 
         private static ConsoleData s_ConsoleData;
         private static Console s_Console;
@@ -419,7 +420,10 @@ namespace ConsoleUtility
 
         private static void HandleUnityLog(string logString, string stackTrace, LogType type)
         {
-            Log("UNITY", string.Format("[{0}] : {1}", type, logString), type);
+			if (s_Console == null || !s_Console.showUnityLogs)
+				return;
+
+			Log("UNITY", string.Format("[{0}] : {1}", type, logString), type);
             if(type == LogType.Error || type == LogType.Exception)
             {
                 Log(stackTrace, false);
